@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        <f:loadBundle  var="ozellik" basename="com.cokelek.bean.veriler" />
+               
+        <h:form>
+         
+            <h:panelGrid columns="1">
+                <f:facet name="header" >Komple</f:facet>
+                
+                <h:inputText id="no1" value="#{klarnet.adim}" required="true" requiredMessage="Yazı girersen güzel olur" > 
+                    <f:passThroughAttribute name="placeholder" value="Yazı gir" />
+    
+                        <f:ajax  event="blur" execute="@form" render="@form" />
+            </h:inputText>
+                <h:message for="no1" />
+                
+            <hr/>
+            
+                <h:inputText id="no2" value="#{klarnet.plan1}" required="true" requiredMessage="Rakam Giriniz lütfen." 
+                             label="Kısıtlı Bilgi">
+               
+                <f:convertNumber />
+                <f:validateLength  minimum="3" maximum="9"  />
+                
+                <f:passThroughAttribute name="size" value="55" />
+                <f:passThroughAttribute name="placeholder" value="Sadece sayi" />
+               
+                
+                <f:ajax  event="blur" execute="@form" render="@form" />
+                
+            </h:inputText>
+                <h:message for="no2" />
+                <hr/>
+                <h:outputLabel value="loadBundle tagi ile yukledim şimdi ise verileri Gosterimini yapıcam.." /> <br/>
+                
+                <h:outputText value="#{ozellik['insan']}" />
+                <h:outputText value="#{ozellik.hayvan}" />
+                
+                <h:outputLabel value="#{ozellik.uzayli}" />
+                <h:outputLabel value="#{ozellik['alem']}" />
+                
+                <h:outputLabel value="Kusuratlı Gir :"  />
+                <h:inputText id="no3" value="#{klarnet.plan2}" label="sayi belirtilen aralıkta giriniz">
+                    <f:validateLongRange  maximum="999" minimum="950" />
+                    <f:ajax  event="change"  execute="@form" render="@form"  />
+                </h:inputText>
+                <h:message for="no3" />
+                <hr/>
+                
+                <h:inputText  id="no4" value="#{klarnet.plan3}" label="Tarih bölümü :">
+                    <f:convertDateTime  pattern="yyyy-dd-mm" type="date" />
+                    
+                    <f:passThroughAttribute name="placeholder" value="yyyy-dd-mm" />
+                    <f:passThroughAttribute name="size" value="50" />
+                    <f:ajax  execute="@form" render="@form" />
+                    
+                </h:inputText>
+                <h:message for="no4" />
+                
+                <h:selectOneMenu id="bil" value="#{klarnet.azizveysel_tek}">
+                     <f:ajax   execute="bil"  render="goster" />
+                    <f:selectItems value="#{klarnet.azizveysel}" />
+                </h:selectOneMenu>
+                <h:outputText id="goster" value="#{klarnet.azizveysel_tek}" />
+                <hr/>
+                
+                
+                <h:selectManyListbox  id="kek" value="#{klarnet.veriler}">
+                    <f:ajax execute="kek" render="ver" />
+                    <f:selectItems  value="#{klarnet.azizveysel}"  />
+                </h:selectManyListbox>                
+                <h:outputLabel  id="ver"  value="#{klarnet.dans()}"/>
+                
+                <hr/>
+                
+                <h:selectOneRadio id="haz" value="#{klarnet.plan5}"> 
+                    <f:ajax execute="haz" render="isim" />
+                    <f:selectItems value="#{klarnet.azizveysel}"  />
+                </h:selectOneRadio>
+                
+                <h:outputText  id="isim" value="#{klarnet.plan5}"  />
+                
+                
+                <ui:repeat var="der" value="#{klarnet.ask}">
+                    <p>#{der.isim1}  -  #{der.isim2}</p>
+                    
+                </ui:repeat>
+                
+                <hr/>
+                <h:dataTable var="goz" value="#{klarnet.ask}">
+                    <h:column>
+                        <f:facet name="header">ISIM-2</f:facet>
+                        #{goz.isim2}
+                    </h:column>
+                  
+                    <h:column>
+                        <f:facet name="header">
+                           ISIM -1
+                        </f:facet>
+                         #{goz.isim1}
+                    </h:column>
+                </h:dataTable>
+                
+                
+                
+                
+            </h:panelGrid>
+        </h:form>
+        
+        
+        
+    </h:body>
+</html>
+
